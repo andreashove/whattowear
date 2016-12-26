@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+	<title>Display IP Address</title>
+</head>
+ 
+<body>
+ 	<button type="button" id="getxml" >Get xml doc</button>
+ 	<button type="button">Calculate clothing</button>
+ 	<button type="button" id="getloc" >Retrieve Location</button>
+	<script>
+		function getLocation() {
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', "http://api.ipinfodb.com/v3/ip-city/?key=75858599f7d77949e9aea959fc579c36609c53bfd45ac4f1da5e64efae1bf876", true);
+			xhr.send();
+
+			xhr.onreadystatechange = processRequest;
+
+			function processRequest(e) {
+				if (xhr.readyState == XMLHttpRequest.DONE) {
+	        		alert(xhr.responseText);
+				}
+			}
+		}
+		
+		var el = document.getElementById("getloc");
+		if (el.addEventListener)
+		    el.addEventListener("click", getLocation, false);
+		else if (el.attachEvent)
+		    el.attachEvent('onclick', getLocation);
+
+		var el = document.getElementById("getxml");
+		if (el.addEventListener)
+		    el.addEventListener("click", getXML, false);
+		else if (el.attachEvent)
+		    el.attachEvent('onclick', getXML);
+
+		function createCORSRequest(method, url) {
+			  var xhr = new XMLHttpRequest();
+			  if ("withCredentials" in xhr) {
+
+				// Check if the XMLHttpRequest object has a "withCredentials" property.
+				// "withCredentials" only exists on XMLHTTPRequest2 objects.
+				xhr.open(method, url, true);
+
+			  } else if (typeof XDomainRequest != "undefined") {
+
+				// Otherwise, check if XDomainRequest.
+				// XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+				xhr = new XDomainRequest();
+				xhr.open(method, url);
+
+			  } else {
+
+				// Otherwise, CORS is not supported by the browser.
+				xhr = null;
+
+			  }
+			  return xhr;
+		}
+
+			
+		
+		function getXML(){
+			var xhr = createCORSRequest('GET', "http://www.yr.no/place/Norway/Rogaland/Stavanger/Stavanger/forecast_hour_by_hour.xml");
+			if (!xhr) {
+			  throw new Error('CORS not supported');
+			}
+			alert(xhr.responseText);
+			/*
+			var xhttp = new XMLHttpRequest();
+			xhttp.open('GET', "http://www.yr.no/place/Norway/Rogaland/Stavanger/Stavanger/forecast_hour_by_hour.xml", true);
+			xhttp.send();
+
+			xhttp.onreadystatechange = processReq;
+
+			function processReq(e) {
+				if (xhttp.readyState == XMLHttpRequest.DONE) {
+					alert("ready");
+	        		var xmlDoc = xhttp.responseText;
+	        		alert("xmldoc"+xmlDoc);
+			    	var x = xmlDoc.getElementsByTagName('weatherdata')[0];
+	        		alert(x);
+			    	var y = x.childNodes[0];
+	        		alert(y);
+			    	//document.getElementById("demo").innerHTML = y.nodeValue;
+			   		alert(xmlDoc); 
+				}
+			}
+			
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+		    if (xhttp.readyState == 4 && xhttp.status == 200) {
+		        myFunction(xhttp);
+		    }};
+			xhttp.open("GET", "http://www.yr.no/place/Norway/Rogaland/Stavanger/Stavanger/forecast_hour_by_hour.xml", true);
+			xhttp.send();
+
+			function myFunction(xml) {
+			    var xmlDoc = xml.responseXML;
+			    alert(xmlDoc);
+			    var x = xmlDoc.getElementsByTagName('weatherdata')[0];
+			    var y = x.childNodes[0];
+			    //document.getElementById("demo").innerHTML = y.nodeValue;
+			    alert(x); 
+			}
+			*/
+		}
+		
+	</script>
+</body>
+ 
+</html>
